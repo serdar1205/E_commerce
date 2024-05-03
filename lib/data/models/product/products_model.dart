@@ -30,17 +30,17 @@ class ProductsModel extends ProductEntity {
         salePrice: json["sale_price"]?.toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name_tm": nameTm,
-        "name_en": nameEn,
-        "desc_tm": descTm,
-        "desc_en": descEn,
-        "price": price,
-        "image": image,
-        "category": category,
-        "quantity": quantity,
-        "discount": discount,
-        "sale_price": salePrice,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "id": id,
+  //       "name_tm": nameTm,
+  //       "name_en": nameEn,
+  //       "desc_tm": descTm,
+  //       "desc_en": descEn,
+  //       "price": price,
+  //       "image": image,
+  //       "category": category,
+  //       "quantity": quantity,
+  //       "discount": discount,
+  //       "sale_price": salePrice,
+  //     };
 }

@@ -9,7 +9,7 @@ import 'package:tehno_mir/domain/repositories/categories.dart';
 
 import '../../core/constants/strings/app_strings.dart';
 
-class CategoryRepositoryImpl extends CategoryRepository {
+class CategoryRepositoryImpl implements CategoryRepository {
   final CategoryRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 

@@ -28,7 +28,7 @@ abstract class AppTheme {
       titleTextStyle: TextStyle(
         color: AppColors.textDarkColor,
         fontSize: 20,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       iconTheme: IconThemeData(color: AppColors.textDarkColor),
       elevation: 0,
@@ -39,11 +39,11 @@ abstract class AppTheme {
       titleLarge: TextStyle(
         color: AppColors.textDarkColor,
         fontSize: 20,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w400,
       ),
       titleMedium: TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         color: AppColors.textDarkColor,
       ),
       bodyLarge: TextStyle(
@@ -55,12 +55,12 @@ abstract class AppTheme {
       ),
       bodyMedium: TextStyle(
         fontSize: 14,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         color: AppColors.textDarkColor,
       ),
       bodySmall: TextStyle(
         fontSize: 12,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w400,
         color: AppColors.textGrayColor,
       ),
     ),

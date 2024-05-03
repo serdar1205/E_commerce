@@ -7,7 +7,7 @@ import 'package:tehno_mir/domain/repositories/product_detail_repository.dart';
 import '../../core/constants/strings/app_strings.dart';
 import '../../core/network/network.dart';
 
-class ProductDetailRepositoryImpl extends ProductDetailRepository{
+class ProductDetailRepositoryImpl implements ProductDetailRepository{
 
   final NetworkInfo networkInfo;
   final ProductDetailRemoteDataSource remoteDataSource;

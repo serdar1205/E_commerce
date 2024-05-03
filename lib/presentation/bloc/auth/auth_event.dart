@@ -17,3 +17,10 @@ class SignUpAuthEvent extends AuthEvent {
 class SignOutAuthEvent extends AuthEvent {}
 
 class CheckAuthEvent extends AuthEvent {}
+
+class GetUserEvent extends AuthEvent {
+
+  GetUserEvent();
+
+
+}

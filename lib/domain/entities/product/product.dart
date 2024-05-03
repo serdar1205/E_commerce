@@ -26,7 +26,21 @@ class ProductEntity extends Equatable {
     required this.discount,
     required this.salePrice,
   });
-
+ Map<String, dynamic> toJson() {
+   return {
+     "id": id,
+     "nameTm": nameTm,
+     "nameEn": nameEn,
+     "descTm": descTm,
+     "descEn": descEn,
+     "price": price,
+     "image": image,
+     "category": category,
+     "quantity": quantity,
+     "discount": discount,
+     "salePrice": salePrice,
+   };
+ }
   @override
   List<Object?> get props => [
         id,

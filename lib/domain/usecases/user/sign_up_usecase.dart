@@ -4,13 +4,13 @@ import '../../../core/usecase/usecase.dart';
 import '../../entities/user.dart';
 import '../../repositories/user_repository.dart';
 
-class SignUpUseCase implements BaseUseCase<SignUpParams, void> {
+class SignUpUseCase implements BaseUseCase<SignUpParams, UserEntity> {
   final UserRepository repository;
 
   SignUpUseCase(this.repository);
 
   @override
-  Future<Either<Failure, void>> execute(SignUpParams input) async {
+  Future<Either<Failure, UserEntity>> execute(SignUpParams input) async {
     return await repository.signUp(input);
   }
 }

@@ -15,7 +15,7 @@ class ApiProviderImpl implements ApiProvider {
       BaseOptions(
         baseUrl: ApiEndpoints.baseUrl,
         receiveDataWhenStatusError: true,
-        connectTimeout: const Duration(seconds: 5),
+        connectTimeout: const Duration(seconds: 10),
       ),
     );
     dio.interceptors.addAll([
@@ -28,7 +28,6 @@ class ApiProviderImpl implements ApiProvider {
     ]);
     return dio;
   }
-
 
   @override
   Future<Response> get({
@@ -46,7 +45,8 @@ class ApiProviderImpl implements ApiProvider {
     }
 
     dio.options.headers = {
-      if (isMultiPart) 'Content-Type': 'application/json',//'multipart/form-data',
+      if (isMultiPart) 'Content-Type': 'application/json',
+      //'multipart/form-data',
       if (!isMultiPart) 'Content-Type': 'application/json',
       if (!isMultiPart) 'Accept': 'application/json',
       if (token != null) 'Authorization': 'Bearer $token',
@@ -118,6 +118,33 @@ class ApiProviderImpl implements ApiProvider {
       queryParameters: query,
       onSendProgress: progressCallback,
       cancelToken: cancelToken,
+    );
+  }
+
+  @override
+  Future<Response> delete(
+      {String? baseUrl,
+      required String endPoint,
+      data,
+      query,
+      String? token,
+      int? timeOut,
+      bool isMultiPart = false,
+      }) async{
+    if (timeOut != null) {
+      dio.options.connectTimeout = Duration(seconds: timeOut);
+    }
+
+    dio.options.headers = {
+      if (isMultiPart) 'Content-Type': 'multipart/form-data',
+      if (!isMultiPart) 'Content-Type': 'application/json',
+      if (!isMultiPart) 'Accept': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+    return await dio.delete(
+      endPoint,
+      data: data,
+      queryParameters: query,
     );
   }
 }

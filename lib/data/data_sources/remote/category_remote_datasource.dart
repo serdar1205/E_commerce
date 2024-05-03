@@ -9,7 +9,7 @@ abstract class CategoryRemoteDataSource{
   Future<List<CategoryEntity>> getCategories();
 }
 
-class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource{
+class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource{
   final ApiProvider apiProvider;
 
   CategoryRemoteDataSourceImpl({required this.apiProvider});

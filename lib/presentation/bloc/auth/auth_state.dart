@@ -13,8 +13,8 @@ class AuthLoading extends AuthState {
 }
 
 class AuthLogged extends AuthState {
-  // AuthLogged(this.data);
-  //  final UserEntity? data;
+  AuthLogged(this.data);
+   final UserEntity? data;
   @override
   List<Object?> get props => [];
 }
@@ -37,5 +37,25 @@ class AuthLoggedFail extends AuthState {
 class AuthLoggedOut extends AuthState {
   @override
   List<Object> get props => [];
+}
+
+
+class UserLoadingState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+class UserLoadedState extends AuthState {
+  final UserEntity user;
+
+  UserLoadedState(this.user);
+  @override
+  List<Object?> get props => [user];
+}
+class UserErrorState extends AuthState {
+  final String message;
+
+  UserErrorState(this.message);
+  @override
+  List<Object?> get props => [message];
 }
 

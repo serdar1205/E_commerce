@@ -8,7 +8,7 @@ bool? isSkipedOnBoarding;
 bool? isLoggedIN;
 
 class ApiEndpoints{
-  static const baseUrl = 'http://192.168.192.75:8000/api/';
+  static const baseUrl = 'http://172.16.18.65:8000/api/';
   static const banners = 'shop/banners';
   static const images = 'http://192.168.192.75:8000';
   static const categories = 'product/categories';
@@ -22,5 +22,16 @@ class ApiEndpoints{
   static const refreshToken = 'accaunt/token/refresh/';
   static const cartItems = 'cart/cart-items';
   static const userData = 'accaunt/user_details/';
+  static const aboutUs = 'shop/info';
+  static const updateCartItems = 'cart/update-item';
+  static const cartItemsTotalCost = 'cart/total_cost';
+  static const totalItems = 'cart/number_of_items';
+  static const removeCartItem = 'cart/remove-item';
+  static const clearCart = 'cart/empty-cart';
+  static const addItemToCart = 'cart/add-item';
+ // static const orderHistory = 'orders/details';
+  static const orderPreview = 'orders/preview';
+  static const order = 'orders/';
+  static const favorites = 'product/favourites';
 
 }

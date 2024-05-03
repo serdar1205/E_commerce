@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tehno_mir/core/config/route/route_names.dart';
 import 'package:tehno_mir/core/constants/colors/app_colors.dart';
 import 'package:tehno_mir/core/constants/sizes/app_text_size.dart';
 import 'package:tehno_mir/domain/entities/product/product.dart';
 import 'package:tehno_mir/domain/usecases/product_detail/get_product_detail.dart';
+import 'package:tehno_mir/presentation/bloc/auth/auth_bloc.dart';
+import 'package:tehno_mir/presentation/bloc/cart/cart_bloc.dart';
+import 'package:tehno_mir/presentation/bloc/favorite/favorite_bloc.dart';
 import 'package:tehno_mir/presentation/bloc/product_details/product_detail_bloc.dart';
 import 'package:tehno_mir/presentation/pages/product_details/product_details_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 import '../../../core/constants/strings/endpoints.dart';
 import '../../pages/registration/sign_up/registration_page.dart';
 
-
-bool isLoggedIn = false;
 class ProductCardWidget extends StatelessWidget {
   const ProductCardWidget({super.key, required this.model});
 
@@ -26,8 +23,11 @@ class ProductCardWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>  ProductDetailsPage(productId: model.id,)));
-        context.read<ProductDetailBloc>().add(GetProductDetailEvent(ParamsGetProductDetailUseCase(productId: model.id)));
+            builder: (context) => ProductDetailsPage(
+                  productId: model.id,
+                )));
+        context.read<ProductDetailBloc>().add(GetProductDetailEvent(
+            ParamsGetProductDetailUseCase(productId: model.id)));
 
         // context.push(RouteNames.productDetail);
       },
@@ -49,7 +49,8 @@ class ProductCardWidget extends StatelessWidget {
                       width: 175,
                       height: 175,
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
                         child: CachedNetworkImage(
                           imageUrl: ApiEndpoints.images + model.image!,
                           fit: BoxFit.contain,
@@ -69,15 +70,48 @@ class ProductCardWidget extends StatelessWidget {
                         borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(8),
                             bottomLeft: Radius.circular(12)),
-                        child: Container(
-                            width: 40,
-                            height: 40,
-                            color: Colors.white,
-                            child: const Center(
-                                child: Icon(
-                              Icons.favorite_border_outlined,
-                              color: Colors.red,
-                            ))),
+                        child: BlocBuilder<FavoriteBloc, FavoriteState>(
+                          builder: (context, state) {
+                            if (!context
+                                .read<FavoriteBloc>()
+                                .productId
+                                .contains(model.id)) {
+                              return Container(
+                                  width: 40,
+                                  height: 40,
+                                  color: Colors.white,
+                                  child: Center(
+                                      child: IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<FavoriteBloc>()
+                                          .add(AddFavoriteProduct(model.id));
+                                    },
+                                    icon: const Icon(
+                                      Icons.favorite_border_outlined,
+                                      color: Colors.red,
+                                    ),
+                                  )));
+                            } else {
+                              return Container(
+                                  width: 40,
+                                  height: 40,
+                                  color: Colors.white,
+                                  child: Center(
+                                      child: IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<FavoriteBloc>()
+                                          .add(RemoveFavoriteProduct(model.id));
+                                    },
+                                    icon: const Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                    ),
+                                  )));
+                            }
+                          },
+                        ),
                       ),
                     ),
 
@@ -107,23 +141,23 @@ class ProductCardWidget extends StatelessWidget {
 
                 ///body
 
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SmallText(model.nameTm ?? '', context: context),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: VerySmallText('${model.price}TMT'?? '', context: context).copyWith(isLineThrough: true),
-                          ),
-                          SmallText('${model.salePrice} TMT'??'', context: context),
-                        ],
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SmallText(model.nameTm, context: context),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child:
+                            VerySmallText('${model.price}TMT', context: context)
+                                .copyWith(isLineThrough: true),
                       ),
-                    ),
-
-
+                      SmallText('${model.salePrice} TMT', context: context),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -138,31 +172,84 @@ class ProductCardWidget extends StatelessWidget {
                   width: 40,
                   height: 40,
                   color: AppColors.curnil,
-                  child:  Center(
-                      child: IconButton(
-                        onPressed: (){
-                          _showDialog(context, 'Sebede gosmak ucin agza bolun!');
+                  child: Center(child: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is AuthLogged) {
+                        context.read<CartBloc>().add(GetCartProductsEvent());
+                        return BlocBuilder<CartBloc, CartState>(
+                          builder: (context, state) {
+                            if (!context
+                                .read<CartBloc>()
+                                .addedItemId
+                                .contains(model.id)) {
+                              return IconButton(
+                                onPressed: () {
+                                  context
+                                      .read<CartBloc>()
+                                      .add(AddProductEvent(model.id));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('Sebede gosuldy'),
+                                    duration: Duration(seconds: 1),
+                                  ));
+                                },
+                                icon: const Icon(
+                                  Icons.add,
+                                ),
+                                color: Colors.white,
+                              );
+                            }
 
+                            else {
+                              return IconButton(
+                                onPressed: () {
+                                  context
+                                      .read<CartBloc>()
+                                      .add(RemoveProductEvent(model.id));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('Sebetden ayryldy'),
+                                    duration: Duration(seconds: 1),
+                                  ));
+                                },
+                                icon: const Icon(
+                                  Icons.remove,
+                                ),
+                                color: Colors.white,
+                              );
+                            }
+                          },
+                        );
+                      }
+                      return IconButton(
+                        onPressed: () {
+                          _showDialog(
+                              context, 'Sebede gosmak ucin agza bolun!');
                         },
-                        icon: const Icon( Icons.add,),
+                        icon: const Icon(
+                          Icons.add,
+                        ),
                         color: Colors.white,
-                      ))),
+                      );
+                    },
+                  ))),
             ),
           ),
         ],
       ),
     );
   }
+
   void _showDialog(BuildContext context, String title) {
     showDialog(
       context: context,
-     // barrierDismissible: false,
+      // barrierDismissible: false,
       builder: (ctx) => AlertDialog(
         backgroundColor: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         //backgroundColor: AppColors.cardColor3,
         elevation: 8,
-        content: BigText(title??'', context: context),
+        content: BigText(title, context: context),
         actions: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -175,9 +262,9 @@ class ProductCardWidget extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RegistrationPage()));
-
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const RegistrationPage()));
                 },
                 child: MediumText(
                   'Agza bolmak',
@@ -189,5 +276,5 @@ class ProductCardWidget extends StatelessWidget {
         ],
       ),
     );
-}
+  }
 }

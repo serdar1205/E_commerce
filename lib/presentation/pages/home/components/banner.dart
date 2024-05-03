@@ -23,12 +23,6 @@ class _ImageSliderWidgetState extends State<ImageSliderWidget> {
   }
   @override
   Widget build(BuildContext context) {
-
-    // final bannerCubit = context.read<BannerCubit>();
-    //
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   bannerCubit.getBanners();
-    // });
     return BlocBuilder<BannerCubit, BannerState>(
       builder: (context, state) {
         if (state is BannerLoadingState) {

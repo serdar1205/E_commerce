@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
         BlocBuilder<CategoryProductsCubit, CategoryProductsState>(
           builder: (context, state) {
             if (state is CategoryProductsLoadingState) {
-              return const SliverToBoxAdapter(child: SizedBox());
+              return const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
             } else if (state is CategoryProductsLoadedState) {
               return ProductCardGrid(products: state.data);
             } else if (state is CategoryProductsErrorState) {

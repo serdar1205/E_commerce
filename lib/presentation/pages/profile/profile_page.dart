@@ -13,6 +13,8 @@ import 'package:tehno_mir/presentation/widgets/buttons/main_button.dart';
 import 'package:tehno_mir/presentation/widgets/buttons/profile_button.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
+import 'about_us/about_us_page.dart';
+import 'history/history_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -90,14 +92,14 @@ class _ProfilePageState extends State<ProfilePage> {
             builder: (context, state) {
               if (state is AuthLogged) {
                 return ProfileWidget(
-                  'Serdar',
+                  state.data?.userName ?? '',
                   paddingBottom: 0,
                   paddingRight: 0,
                   paddingTop: 0,
                   widget: Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: BigText(
-                      '+99361010203',
+                      state.data?.phoneNumber ?? '',
                       context: context,
                     ).copyWith(
                       fontSize: 18,
@@ -132,7 +134,15 @@ class _ProfilePageState extends State<ProfilePage> {
             'Halanlarym',
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FavoritePage()));
+                  MaterialPageRoute(builder: (context) => const FavoritePage()));
+              //context.push(RouteNames.favourites);
+            },
+          ),
+          ProfileButton(
+            'Edilen sargytlar',
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const HistoryPage()));
               //context.push(RouteNames.favourites);
             },
           ),
@@ -140,21 +150,23 @@ class _ProfilePageState extends State<ProfilePage> {
             'Adreslarym',
             onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => AddressPage()));
+                  .push(MaterialPageRoute(builder: (context) => const AddressPage()));
               //context.push(RouteNames.address);
             },
           ),
           ProfileButton(
             'Habarlasmak',
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ContactUsPage()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContactUsPage()));
               // context.push(RouteNames.contuctUs);
             },
           ),
           ProfileButton(
             'Biz barada',
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutUsPage()));
+
+            },
           ),
           ProfileWidget('Dil calysmak',
               widget: Switch.adaptive(
@@ -210,7 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   context.read<AuthBloc>().add(SignOutAuthEvent());
                   Navigator.pop(context);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyApp()));
+                      MaterialPageRoute(builder: (context) =>  MyApp()));
                 },
                 child: MediumText(
                   'Hawa',

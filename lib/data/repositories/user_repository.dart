@@ -12,7 +12,7 @@ import '../../core/error/error_handler.dart';
 import '../../core/network/network.dart';
 import '../../domain/repositories/user_repository.dart';
 
-class UserRepositoryImpl extends UserRepository{
+class UserRepositoryImpl implements UserRepository{
 
 
   final NetworkInfo networkInfo;
@@ -24,7 +24,7 @@ class UserRepositoryImpl extends UserRepository{
 
 
   @override
-  Future<Either<Failure, void>> signIn(SignInParams params)async {
+  Future<Either<Failure, UserEntity>> signIn(SignInParams params)async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
@@ -60,7 +60,7 @@ class UserRepositoryImpl extends UserRepository{
   }
 
   @override
-  Future<Either<Failure, void>> signUp(SignUpParams params)async {
+  Future<Either<Failure, UserEntity>> signUp(SignUpParams params)async {
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {

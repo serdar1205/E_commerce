@@ -7,7 +7,7 @@ abstract class BannerRemoteDataSource {
   Future<List<BannerEntity>> getBanners();
 }
 
-class BannerRemoteDataSourceImpl extends BannerRemoteDataSource {
+class BannerRemoteDataSourceImpl implements BannerRemoteDataSource {
   final ApiProvider apiProvider;
 
   BannerRemoteDataSourceImpl({required this.apiProvider});

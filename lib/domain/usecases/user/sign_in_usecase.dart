@@ -5,12 +5,12 @@ import 'package:tehno_mir/domain/entities/user.dart';
 import '../../../core/usecase/usecase.dart';
 import '../../repositories/user_repository.dart';
 
-class SignInUseCase implements BaseUseCase<SignInParams, void> {
+class SignInUseCase implements BaseUseCase<SignInParams, UserEntity> {
   final UserRepository repository;
   SignInUseCase(this.repository);
 
   @override
-  Future<Either<Failure, void>> execute(SignInParams input)async {
+  Future<Either<Failure, UserEntity>> execute(SignInParams input)async {
    return await repository.signIn(input);
   }
 }

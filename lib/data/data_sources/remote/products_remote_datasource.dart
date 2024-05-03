@@ -8,14 +8,13 @@ import '../../../domain/usecases/products/get_product_usecase.dart';
 abstract class ProductsRemoteDataSource {
   Future<List<ProductEntity>> getCategoryProducts(CategoryProductsQueryParams params);
 
- // Future<List<ProductEntity>> getAllProducts();
 
   Future<List<ProductEntity>> getSearchResult(String keyword);
 
   Future<List<ProductEntity>> getProducts(ProductQueryParameters params);
 }
 
-class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource {
+class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
   final ApiProvider apiProvider;
 
   ProductsRemoteDataSourceImpl({required this.apiProvider});
@@ -31,15 +30,6 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource {
     final responseBody = response.data as List;
     return responseBody.map((e) => ProductsModel.fromJson(e)).toList();
   }
-
-  // @override
-  // Future<List<ProductEntity>> getAllProducts() async {
-  //   final response = await apiProvider.get(endPoint: ApiEndpoints.allProducts);
-  //
-  //   final responseBody = response.data as List;
-  //
-  //   return responseBody.map((e) => ProductsModel.fromJson(e)).toList();
-  // }
 
   @override
   Future<List<ProductEntity>> getSearchResult(String keyword) async {
@@ -57,7 +47,6 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource {
     }
   }
 
-//http://192.168.192.75:8000/api/product?order=asc?sortBy=price?limit=15
   @override
   Future<List<ProductEntity>> getProducts(ProductQueryParameters params) async {
     final queryParameters = params.toQueryParameters();

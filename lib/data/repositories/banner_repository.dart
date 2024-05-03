@@ -9,7 +9,7 @@ import 'package:tehno_mir/domain/repositories/banner.dart';
 
 import '../../core/constants/strings/app_strings.dart';
 
-class BannerRepositoryImpl extends BannerRepository {
+class BannerRepositoryImpl implements BannerRepository {
   final BannerRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 

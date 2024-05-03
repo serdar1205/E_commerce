@@ -67,7 +67,6 @@ class _SignInPageState extends State<SignInPage> {
                     const SizedBox(height: 10),
                     KTextField(
                       controller: passwordCtrl,
-                      isSubmitted: false,
                       labelText: 'passwordCtrl yazyn',
                       keyboardType: TextInputType.visiblePassword,
                       validator: (val) {

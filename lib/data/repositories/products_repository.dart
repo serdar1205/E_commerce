@@ -8,7 +8,7 @@ import '../../domain/repositories/product.dart';
 import '../../domain/usecases/products/get_category_products_usecase.dart';
 import '../data_sources/remote/products_remote_datasource.dart';
 
-class ProductsRepositoryImpl extends ProductsRepository {
+class ProductsRepositoryImpl implements ProductsRepository {
   final ProductsRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 

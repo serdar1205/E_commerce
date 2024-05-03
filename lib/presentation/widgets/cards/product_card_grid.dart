@@ -22,7 +22,7 @@ class ProductCardGrid extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         childCount: products.length,
             (BuildContext context, int index) {
-          return  ProductCardWidget(model: products[index],);
+          return  ProductCardWidget(model: products[index]);
         },
       ),
     );

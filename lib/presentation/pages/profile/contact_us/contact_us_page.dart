@@ -54,7 +54,6 @@ class _ContactUsPageState extends State<ContactUsPage> {
                 children: [
                   KTextField(
                     controller: emailCtrl,
-                    isSubmitted: false,
                     labelText: 'E-poctanyzy girizin',
                     keyboardType: TextInputType.emailAddress,
                     validator: (val) {
@@ -72,7 +71,6 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   const SizedBox(height: 10),
                   KTextField(
                     controller: messageCtrl,
-                    isSubmitted: false,
                     labelText: 'Hatynyz',
                     maxLines: 5,
                     validator: (val) {

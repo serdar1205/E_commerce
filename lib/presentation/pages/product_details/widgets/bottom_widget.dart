@@ -55,7 +55,7 @@ class BottomWidget extends StatelessWidget {
               width: 145,
               buttonHeight: 40,
               buttonWidth: 40,
-              textWidget: BigText(count.toString(), context: context),
+              textCount: 5, id: 1,quantity: 10,//BigText(count.toString(), context: context),
             ),
           ],
         ),

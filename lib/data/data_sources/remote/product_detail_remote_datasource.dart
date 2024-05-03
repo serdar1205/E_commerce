@@ -7,7 +7,7 @@ abstract class ProductDetailRemoteDataSource {
   Future<ProductDetailEntity> getProductDetail(int productId);
 }
 
-class ProductDetailRemoteDataSourceImpl extends ProductDetailRemoteDataSource {
+class ProductDetailRemoteDataSourceImpl implements ProductDetailRemoteDataSource {
   final ApiProvider apiProvider;
 
   ProductDetailRemoteDataSourceImpl(this.apiProvider);

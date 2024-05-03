@@ -5,14 +5,14 @@ import 'package:tehno_mir/presentation/bloc/categories/category_cubit.dart';
 import '../../../widgets/cards/category_card.dart';
 import '../../../widgets/loadin_widget.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+class CategoryPage extends StatefulWidget {
+  const CategoryPage({Key? key}) : super(key: key);
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<CategoryPage> createState() => _CategoryPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return  CustomScrollView(

@@ -10,62 +10,19 @@ import '../../../domain/usecases/user/sign_up_usecase.dart';
 import '../../models/user_model/authentication_response_model.dart';
 
 abstract class UserRemoteDataSource{
-  Future<void> signIn(SignInParams params);
-  Future<void> signUp(SignUpParams params);
+  Future<UserEntity> signIn(SignInParams params);
+  Future<UserEntity> signUp(SignUpParams params);
   Future<void> signOut(String refreshToken);
   Future<UserEntity> getUser();
 
 }
 
-class UserRemoteDataSourceImpl extends UserRemoteDataSource {
+class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final ApiProvider apiProvider;
   UserRemoteDataSourceImpl(this.apiProvider);
+
   @override
-  Future<void> signIn(SignInParams params) async {
-    var formData = FormData.fromMap({
-      'phone_number':params.phoneNumber,
-      'password':params.password,
-    });
-
-   try{
-     final response = await apiProvider.post(
-         endPoint: ApiEndpoints.signIn,
-         data: formData,
-     isMultiPart: true,
-     );
-     print('------------${response.statusCode}---------------');
-      if (response.statusCode == 200) {
-        final accessToken = response.data['access'];
-        final refreshToken = response.data['refresh'];
-        // Store tokens
-        await Store.setToken(accessToken);
-        await Store.setRefreshToken(refreshToken);
-        var a = await Store.getToken();
-        var b = await Store.getRefreshToken();
-        print('--------login----token added--------------');
-        print(a);
-        print('--------------------------');
-        print('-------login----refresh token added---------------');
-        print(b);
-        print('--------------------------');
-
-      }
-      else{
-        print(response.toString()+'datasource -- datasource not 200 ');
-        var a = await Store.getToken();
-        print('????????????????????????');
-        print(a);
-        print('????????????????????????');
-        //throw ErrorHandler.handle(response.data['message']);
-      }
-
-   }catch(e){
-     print('Exception caught: $e');
-     rethrow;
-   }
-  }
-  @override
-  Future<void> signUp(SignUpParams params)async {
+  Future<UserEntity> signUp(SignUpParams params)async {
 
     var formData = FormData.fromMap({
       'full_name':params.userName,
@@ -97,6 +54,9 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
         print(b);
         print('--------------------------');
 
+        var userData = await getUser();
+        return userData;
+
       }
       else{
         print(response.toString()+'datasource -- datasource not 200 ');
@@ -104,7 +64,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
         print('????????????????????????');
         print(a);
         print('????????????????????????');
-        //throw ErrorHandler.handle(response.data['message']);
+        throw ErrorHandler.handle(response.data['message']);
       }
   }
 
@@ -132,6 +92,43 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
    else{
     throw 'statusCode${response.statusCode}';
    }
+  }
+  @override
+  Future<UserEntity> signIn(SignInParams params) async {
+    var formData = FormData.fromMap({
+      'phone_number':params.phoneNumber,
+      'password':params.password,
+    });
+
+    try{
+      final response = await apiProvider.post(
+        endPoint: ApiEndpoints.signIn,
+        data: formData,
+        isMultiPart: true,
+      );
+      if (response.statusCode == 200) {
+        final accessToken = response.data['access'];
+        final refreshToken = response.data['refresh'];
+        // Store tokens
+        await Store.setToken(accessToken);
+        await Store.setRefreshToken(refreshToken);
+        // var a = await Store.getToken();
+        // var b = await Store.getRefreshToken();
+        var userData = await getUser();
+          return userData;
+
+
+
+      }
+      else{
+
+        throw ErrorHandler.handle(response.data['message']);
+      }
+
+    }catch(e){
+      print('Exception caught: $e');
+      rethrow;
+    }
   }
 }
 

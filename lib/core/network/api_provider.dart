@@ -35,9 +35,17 @@ abstract class ApiProvider{
     dynamic query,
     String? token,
     CancelToken? cancelToken,
-    ProgressCallback? progressCallback,
     int? timeOut,
     bool isMultipart = false,
+  });
+  Future<Response> delete({
+    String? baseUrl,
+    required String endPoint,
+    dynamic data,
+    dynamic query,
+    String? token,
+    int? timeOut,
+    bool isMultiPart = false,
   });
 
 }

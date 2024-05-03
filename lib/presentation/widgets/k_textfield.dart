@@ -15,7 +15,6 @@ class KTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final int? maxLength;
   final String? Function(String?)? validator;
-  final bool isSubmitted;
   final bool? isEnabled;
   final MaskTextInputFormatter? formatter;
   final bool upperCase;
@@ -38,7 +37,6 @@ class KTextField extends StatefulWidget {
     this.maxLength,
     this.validator,
     this.isEnabled,
-    required this.isSubmitted,
     this.formatter,
     this.upperCase = false,
     this.onChange,
@@ -66,9 +64,6 @@ class _KTextFieldState extends State<KTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       autofocus: widget.autofocus ?? false,
-      autovalidateMode: widget.isSubmitted
-          ? AutovalidateMode.always
-          : AutovalidateMode.disabled,
       controller: widget.controller,
       keyboardType: widget.keyboardType,
       textInputAction: TextInputAction.done,
@@ -171,7 +166,6 @@ class PhoneNumField extends StatelessWidget {
   Widget build(BuildContext context) {
     return KTextField(
       controller: phoneCtrl,
-      isSubmitted: isSubmitted,
       keyboardType: TextInputType.number,
       prefixText: '+993 ',
       hintText: hint ?? 'XX XXXXXX',

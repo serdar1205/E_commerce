@@ -41,7 +41,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           print('Loading.....');
         } else if (state is AuthLogged) {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const MyApp()));
+              .push(MaterialPageRoute(builder: (context) =>  MyApp()));
         } else if (state is AuthLoggedFail) {
           print('Erorr../////////////////////////////////////////...');
         }
@@ -72,7 +72,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   children: [
                     KTextField(
                       controller: nameCtrl,
-                      isSubmitted: false,
                       labelText: 'Adynyzy yazyn',
                       keyboardType: TextInputType.name,
                       validator: (val) {
@@ -93,7 +92,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     const SizedBox(height: 10),
                     KTextField(
                       controller: passwordCtrl,
-                      isSubmitted: false,
                       labelText: 'passwordCtrl yazyn',
                       keyboardType: TextInputType.visiblePassword,
                       validator: (val) {
@@ -108,7 +106,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     const SizedBox(height: 10),
                     KTextField(
                       controller: confirmPasswordCtrl,
-                      isSubmitted: false,
                       labelText: 'confirmPasswordCtrl yazyn',
                       keyboardType: TextInputType.visiblePassword,
                       validator: (val) {
