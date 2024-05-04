@@ -24,9 +24,7 @@ class CategoryChipsWidget extends StatelessWidget {
         } else if (state is CategoryLoadedState) {
           return  FilterChips(items: state.data, isSearch: false);
         } else if (state is CategoryErrorState) {
-          return Center(
-            child: BigText(state.message, context: context),
-          );
+          return Container();
         } else if (state is CategoryEmptyState) {
           return Center(
             child: BigText('Bos', context: context),

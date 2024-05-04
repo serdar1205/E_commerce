@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tehno_mir/core/constants/sizes/app_text_size.dart';
-import 'package:tehno_mir/domain/usecases/products/get_product_usecase.dart';
 import 'package:tehno_mir/presentation/bloc/categories/category_cubit.dart';
 import 'package:tehno_mir/presentation/widgets/category_title.dart';
+import 'package:tehno_mir/presentation/widgets/state_popup/state_popup.dart';
 import '../../../core/constants/sizes/app_sizes.dart';
 import '../../bloc/products/products_cubit.dart';
 import '../../widgets/cards/product_card_grid.dart';
@@ -55,25 +55,16 @@ class _HomePageState extends State<HomePage> {
         BlocBuilder<CategoryProductsCubit, CategoryProductsState>(
           builder: (context, state) {
             if (state is CategoryProductsLoadingState) {
-              return  SliverToBoxAdapter(child: Center(child: CircularProgressIndicator(color: Colors.red,)));
+              return   SliverToBoxAdapter(child: StateRenderer(stateRendererType: StateRendererType.FULL_SCREEN_LOADING_STATE));
             } else if (state is CategoryProductsLoadedState) {
               return ProductCardGrid(products: state.data);
             } else if (state is CategoryProductsErrorState) {
               return SliverToBoxAdapter(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      BigText(state.message, context: context),
-                      TextButton(
-                        onPressed: () {
-                          // Retry fetching products
-                        //  context.read<CategoryProductsCubit>().getProducts(ProductQueryParameters()); // Replace 'params' with appropriate parameters
-                        },
-                        child: Text('Retry'),
-                      ),
-                    ],
-                  ),
+                child: StateRenderer(stateRendererType: StateRendererType.POPUP_ERROR_STATE,
+                  title: state.message,
+                  retryActionFunction: (){
+                 //   context.read<CategoryProductsCubit>().getProducts(ProductQueryParameters());
+                  },
                 ),
               );
             } else if (state is CategoryProductsEmptyState) {

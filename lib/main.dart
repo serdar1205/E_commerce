@@ -18,6 +18,7 @@ import 'core/config/route/router.dart';
 import 'core/config/theme/app_theme.dart';
 import 'core/local/token_store.dart';
 import 'locator.dart';
+import 'presentation/pages/registration/verification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
 
         onGenerateRoute: RouteGenerator.getRoute,
         initialRoute: RouteNames.splashRoute,
-     //     home: SplashView(),//AppStart()
+         // home: PinputExample()//SplashView(),//AppStart()
       ),
     );
   }

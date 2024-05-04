@@ -31,3 +31,4 @@ class BannerErrorState extends BannerState {
   @override
   List<Object> get props => [message];
 }
+

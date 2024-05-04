@@ -139,7 +139,7 @@ class _PinputExampleState extends State<PinputExample> {
               SizedBox(height: 20),
               MainButton(
                 onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PinputExample()));
+               //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PinputExample()));
                 },
                 buttonTile: 'Dowam et',
                 topLeftRadius: 15,
