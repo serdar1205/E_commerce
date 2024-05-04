@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tehno_mir/core/config/route/route_names.dart';
 import 'package:tehno_mir/core/constants/sizes/app_text_size.dart';
 import 'package:tehno_mir/core/constants/strings/endpoints.dart';
 import 'package:tehno_mir/domain/entities/category.dart';
@@ -14,7 +15,9 @@ class CategoryCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductsPage(categoryId: model.id,)));
+        Navigator.of(context).pushNamed(RouteNames.categoryProductsRoute,arguments: model.id);
+
+        //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProductsPage(categoryId: model.id,)));
       //  context.push(RouteNames.productList);
       },
       child: Container(

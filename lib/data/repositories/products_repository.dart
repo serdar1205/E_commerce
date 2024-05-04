@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
+import 'package:tehno_mir/core/error/error_handler.dart';
 import 'package:tehno_mir/core/error/failure.dart';
 import 'package:tehno_mir/domain/entities/product/product.dart';
 import 'package:tehno_mir/domain/usecases/products/get_product_usecase.dart';
@@ -70,18 +72,18 @@ class ProductsRepositoryImpl implements ProductsRepository {
     final bool isConnected = await networkInfo.isConnected;
 
     if (isConnected) {
-      //  try {
+       try {
        final response = await remoteDataSource.getSearchResult(keyword);
       // if (kDebugMode) {
       //   print(response);
     //  }
       return Right(response);
-      // } catch (error) {
-      //   if (kDebugMode) {
-      //     print(error);
-      //   }
-      //   return Left(ErrorHandler.handle(error).failure);
-      // }
+      } catch (error) {
+        if (kDebugMode) {
+          print(error);
+        }
+         return Left(ErrorHandler.handle(error).failure);
+       }
     } else {
       return const Left(OfflineFailure(AppStrings.noInternetError));
     }
@@ -90,21 +92,22 @@ class ProductsRepositoryImpl implements ProductsRepository {
 
   @override
   Future<Either<Failure, List<ProductEntity>>> getProducts(ProductQueryParameters params)async {
+
     final bool isConnected = await networkInfo.isConnected;
 
     if (isConnected) {
-      //  try {
+        try {
       final response = await remoteDataSource.getProducts(params);
       // if (kDebugMode) {
       //   print(response);
       // }
       return Right(response);
-      // } catch (error) {
-      //   if (kDebugMode) {
-      //     print(error);
-      //   }
-      //   return Left(ErrorHandler.handle(error).failure);
-      // }
+       } catch (error) {
+        if (kDebugMode) {
+          print(error);
+        }
+        return Left(ErrorHandler.handle(error).failure);
+      }
     } else {
       return const Left(OfflineFailure(AppStrings.noInternetError));
     }

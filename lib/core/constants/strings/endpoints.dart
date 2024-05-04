@@ -10,7 +10,7 @@ bool? isLoggedIN;
 class ApiEndpoints{
   static const baseUrl = 'http://172.16.18.65:8000/api/';
   static const banners = 'shop/banners';
-  static const images = 'http://192.168.192.75:8000';
+  static const images = 'http://172.16.18.65:8000';
   static const categories = 'product/categories';
   static const categoryProducts = 'product/category_products';
   static const productDetail = 'product/details';

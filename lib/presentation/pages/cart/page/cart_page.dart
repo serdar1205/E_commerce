@@ -35,75 +35,78 @@ class CartPage extends StatelessWidget {
                     .read<TotalPriceBloc>()
                     .add(GetCartProductsTotalCostEvent());
                 return Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     MediumText(
                         'Sebetdaki harytlaryn sany: ${state.data.cart.length}',
                         context: context),
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.65,
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            //shrinkWrap: true,
-                            itemCount: state.data.cart.length,
-                            itemBuilder: (context, index) {
-                              return CartItemBody(
-                                image: state.data.cart[index].product.image!,
-                                title: state.data.cart[index].product.nameTm,
-                                price: state.data.cart[index].product.price,
-                                press: () {},
-                                totalPrice:
-                                    state.data.cart[index].subTotalPrice,
-                                discountPrice:
-                                    state.data.cart[index].product.salePrice,
-                                discount:
-                                    state.data.cart[index].product.discount,
-                                category:
-                                    state.data.cart[index].product.category,
-                                itemCount: state.data.cart[index].count,
-                                productId: state.data.cart[index].product.id,
-                                quantity:
-                                    state.data.cart[index].product.quantity,
-                              );
-                            })),
+                    Expanded(
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: state.data.cart.length,
+                          itemBuilder: (context, index) {
+                            return CartItemBody(
+                              image: state.data.cart[index].product.image!,
+                              title: state.data.cart[index].product.nameTm,
+                              price: state.data.cart[index].product.price,
+                              press: () {},
+                              totalPrice:
+                                  state.data.cart[index].subTotalPrice,
+                              discountPrice:
+                                  state.data.cart[index].product.salePrice,
+                              discount:
+                                  state.data.cart[index].product.discount,
+                              category:
+                                  state.data.cart[index].product.category,
+                              itemCount: state.data.cart[index].count,
+                              productId: state.data.cart[index].product.id,
+                              quantity:
+                                  state.data.cart[index].product.quantity,
+                            );
+                          }),
+                    ),
                     Container(
-                        color: Colors.white,
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                SmallText('Jemi baha:', context: context),
-                                const SizedBox(height: 5),
-                                BlocBuilder<TotalPriceBloc, TotalPriceState>(
-                                  builder: (context, priceState) {
-                                    if (priceState is TotalCostLoadingState) {
-                                      return const CircularProgressIndicator();
-                                    } else if (priceState
-                                        is TotalCostLoadedState) {
-                                      return MediumText(
-                                          '${priceState.data} TMT',
-                                          context: context);
-                                    } else {
-                                      return const Text('0');
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                            MainButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const OrderPage()));
-                                // context.push(RouteNames.order);
-                              },
-                              buttonTile: 'Sargydy etmek',
-                              topLeftRadius: 15,
-                              bottomRightRadius: 15,
-                              width: MediaQuery.of(context).size.width / 2,
-                            ),
-                          ],
-                        ))
+                      color: Colors.white,
+                      height: 90,alignment: Alignment.bottomCenter,
+                      padding: const EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              SmallText('Jemi baha:', context: context),
+                              const SizedBox(height: 5),
+                              BlocBuilder<TotalPriceBloc, TotalPriceState>(
+                                builder: (context, priceState) {
+                                  if (priceState is TotalCostLoadingState) {
+                                    return const CircularProgressIndicator();
+                                  } else if (priceState
+                                      is TotalCostLoadedState) {
+                                    return MediumText('${priceState.data} TMT',
+                                        context: context);
+                                  } else {
+                                    return const Text('0');
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                          MainButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const OrderPage()));
+                              // context.push(RouteNames.order);
+                            },
+                            buttonTile: 'Sargydy etmek',
+                            topLeftRadius: 15,
+                            bottomRightRadius: 15,
+                            width: MediaQuery.of(context).size.width / 2,
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 );
               } else {

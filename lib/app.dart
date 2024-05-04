@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tehno_mir/presentation/bloc/cart/cart_bloc.dart';
 import 'package:tehno_mir/presentation/pages/cart/page/cart_page.dart';
-import 'package:tehno_mir/presentation/pages/categories/view/search_page.dart';
+import 'package:tehno_mir/presentation/pages/categories/view/category_page.dart';
+import 'package:tehno_mir/presentation/pages/favorites/favorites_page.dart';
 import 'package:tehno_mir/presentation/pages/home/home_page.dart';
 import 'package:tehno_mir/presentation/pages/profile/profile_page.dart';
 import 'core/utilities/global_data.dart';
@@ -16,6 +17,7 @@ class AppStart extends StatelessWidget {
     const HomePage(),
     const CategoryPage(),
     const CartPage(),
+    const FavoritePage(),
     const ProfilePage(),
   ];
 
@@ -32,6 +34,7 @@ class AppStart extends StatelessWidget {
             icon: const Icon(Icons.delete))
       ],
     ),
+    AppBar(title: const Text('Halanlarym')),
     AppBar(title: const Text('Profil')),
   ];
   final ValueNotifier<int> _pageIndexNotifier = ValueNotifier<int>(0);

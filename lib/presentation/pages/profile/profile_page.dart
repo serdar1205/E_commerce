@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tehno_mir/core/config/route/route_names.dart';
 import 'package:tehno_mir/core/constants/colors/app_colors.dart';
 import 'package:tehno_mir/core/constants/sizes/app_text_size.dart';
 import 'package:tehno_mir/core/local/token_store.dart';
+import 'package:tehno_mir/data/data_sources/local/local_datasource.dart';
+import 'package:tehno_mir/locator.dart';
 import 'package:tehno_mir/main.dart';
 import 'package:tehno_mir/presentation/bloc/user/user_bloc.dart';
 import 'package:tehno_mir/presentation/pages/profile/addresses/address_page.dart';
 import 'package:tehno_mir/presentation/pages/profile/contact_us/contact_us_page.dart';
-import 'package:tehno_mir/presentation/pages/profile/favorite/favorites_page.dart';
+import 'package:tehno_mir/presentation/pages/favorites/favorites_page.dart';
 import 'package:tehno_mir/presentation/pages/registration/sign_up/registration_page.dart';
 import 'package:tehno_mir/presentation/widgets/buttons/main_button.dart';
 import 'package:tehno_mir/presentation/widgets/buttons/profile_button.dart';
@@ -24,6 +27,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+//  final LocalDataSource _localDataSource = locator<LocalDataSource>();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -117,7 +122,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   paddingTop: 0,
                   widget: MainButton(
                     onPressed: (){
-                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegistrationPage()));
+                      Navigator.of(context).pushNamed(RouteNames.registerRoute);
+
+                      //      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegistrationPage()));
                     },
                     buttonTile: 'Ulgama girmek',
                     topLeftRadius: 15,
@@ -130,41 +137,40 @@ class _ProfilePageState extends State<ProfilePage> {
             },
           ),
 
-          ProfileButton(
-            'Halanlarym',
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const FavoritePage()));
-              //context.push(RouteNames.favourites);
-            },
-          ),
+
           ProfileButton(
             'Edilen sargytlar',
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const HistoryPage()));
+              Navigator.of(context).pushNamed(RouteNames.historyRoute);
+
+              //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HistoryPage()));
               //context.push(RouteNames.favourites);
             },
           ),
           ProfileButton(
             'Adreslarym',
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => const AddressPage()));
+
+              Navigator.of(context).pushNamed(RouteNames.addressRoute);
+
+              //   Navigator.of(context)    .push(MaterialPageRoute(builder: (context) => const AddressPage()));
               //context.push(RouteNames.address);
             },
           ),
           ProfileButton(
             'Habarlasmak',
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContactUsPage()));
+            //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ContactUsPage()));
+              Navigator.of(context).pushNamed(RouteNames.contactUsRoute);
+
               // context.push(RouteNames.contuctUs);
             },
           ),
           ProfileButton(
             'Biz barada',
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutUsPage()));
+              //Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutUsPage()));
+              Navigator.of(context).pushNamed(RouteNames.aboutUs);
 
             },
           ),
@@ -220,9 +226,10 @@ class _ProfilePageState extends State<ProfilePage> {
               TextButton(
                 onPressed: () {
                   context.read<AuthBloc>().add(SignOutAuthEvent());
+             //     _localDataSource.clearCache();
                   Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) =>  MyApp()));
+                //  Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyApp()));
+                  Navigator.of(context).pushNamed(RouteNames.appStartRoute);
                 },
                 child: MediumText(
                   'Hawa',

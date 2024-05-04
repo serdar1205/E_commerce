@@ -14,6 +14,18 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   GetCategoryUseCase useCase;
 
+  dynamic storedData;
+
+
+  init(){
+    if (storedData != null) {
+      emit(CategoryLoadedState(data: storedData));
+    }  else{
+      getCategories();
+    }
+  }
+
+
   Future<void> getCategories() async {
     final result = await useCase.execute(NoParams());
     result.fold(
@@ -21,8 +33,11 @@ class CategoryCubit extends Cubit<CategoryState> {
       (data) => {
         if (data.isEmpty){
             emit(const CategoryEmptyState()),
-          },
+          }else{
+          storedData = data,
         emit(CategoryLoadedState(data: data))
+
+    }
       },
     );
   }

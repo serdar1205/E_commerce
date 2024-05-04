@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:tehno_mir/domain/usecases/products/get_product_usecase.dart';
@@ -23,6 +24,20 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
   final List<String> values = ["created_at", "asc", "desc"];
   String? selectedValue = 'created_at';
 
+
+  dynamic storedData;
+
+
+  init(){
+    if (storedData != null) {
+      emit(CategoryProductsLoadedState(data: storedData));
+    }  else{
+      getProducts(ProductQueryParameters());
+    }
+  }
+
+
+
   void updateSelectedValue(String? value) {
     selectedValue = value;
   }
@@ -30,7 +45,6 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
 
   Future<void> getCategoryProducts(
       CategoryProductsQueryParams params) async {
-    emit(CategoryProductsLoadingState());
     final result =
         await categoryProductsUseCase.execute(CategoryProductsQueryParams(
       categoryId: params.categoryId,
@@ -42,7 +56,7 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
 
     result.fold(
         (failure) =>
-            {emit(CategoryProductsErrorState(message: failure.message))},
+            emit(CategoryProductsErrorState(message: failure.message)),
         (data) => {
               if (data.isEmpty)
                 {
@@ -91,13 +105,16 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
 
     result.fold(
         (failure) =>
-            {emit(CategoryProductsErrorState(message: failure.message))},
+            emit(CategoryProductsErrorState(message: failure.message)),
         (data) => {
-              if (data.isEmpty)
-                {
-                  emit(CategoryProductsEmptyState()),
-                },
-              emit(CategoryProductsLoadedState(data: data)),
-            });
+              if (data.isEmpty){
+                  emit(const CategoryProductsEmptyState()),
+                }
+          else{
+            storedData = data,
+    emit(CategoryProductsLoadedState(data: data)),
+    }});
   }
+
+
 }

@@ -8,13 +8,14 @@ class BottomNavBar extends StatelessWidget {
 
   final ValueNotifier<int> pageIndexNotifier;
 
-  final List<String> pageTitles = ['Bas sahypa', 'Kategoriyalar', 'Sebet', 'Profile'];
+  final List<String> pageTitles = ['Bas sahypa', 'Kategoriya', 'Sebet','Halanlarym', 'Profile'];
 
   final List<String> pageIcons = [
     'Home.svg',
     'category.svg',
     'basket.svg',
-    'Profile.svg'
+    'Heart.svg',
+    'Profile.svg',
   ];
 
   @override

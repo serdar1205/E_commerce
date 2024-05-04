@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tehno_mir/core/config/route/route_names.dart';
 import 'package:tehno_mir/core/constants/colors/app_colors.dart';
 import 'package:tehno_mir/core/constants/sizes/app_text_size.dart';
 import 'package:tehno_mir/domain/entities/product/product.dart';
@@ -22,10 +23,8 @@ class ProductCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ProductDetailsPage(
-                  productId: model.id,
-                )));
+        Navigator.of(context).pushNamed(RouteNames.productDetailRoute,arguments: model.id);
+       // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetailsPage(productId: model.id,)));
         context.read<ProductDetailBloc>().add(GetProductDetailEvent(
             ParamsGetProductDetailUseCase(productId: model.id)));
 
@@ -62,58 +61,99 @@ class ProductCardWidget extends StatelessWidget {
                       ),
                     ),
 
-                    /// like
+                     /// like
                     Positioned(
                       top: 0,
                       right: 0,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(8),
-                            bottomLeft: Radius.circular(12)),
-                        child: BlocBuilder<FavoriteBloc, FavoriteState>(
-                          builder: (context, state) {
-                            if (!context
-                                .read<FavoriteBloc>()
-                                .productId
-                                .contains(model.id)) {
-                              return Container(
-                                  width: 40,
-                                  height: 40,
-                                  color: Colors.white,
-                                  child: Center(
-                                      child: IconButton(
-                                    onPressed: () {
-                                      context
-                                          .read<FavoriteBloc>()
-                                          .add(AddFavoriteProduct(model.id));
-                                    },
-                                    icon: const Icon(
-                                      Icons.favorite_border_outlined,
-                                      color: Colors.red,
-                                    ),
-                                  )));
+                          topRight: Radius.circular(8),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                        child: BlocBuilder<AuthBloc, AuthState>(
+                          builder: (BuildContext context, AuthState state) {
+                            if (state is AuthLogged) {
+                              return _buildFavoriteButton(context, model.id);
                             } else {
-                              return Container(
-                                  width: 40,
-                                  height: 40,
-                                  color: Colors.white,
-                                  child: Center(
-                                      child: IconButton(
-                                    onPressed: () {
-                                      context
-                                          .read<FavoriteBloc>()
-                                          .add(RemoveFavoriteProduct(model.id));
-                                    },
-                                    icon: const Icon(
-                                      Icons.favorite,
-                                      color: Colors.red,
-                                    ),
-                                  )));
+                              return _buildUnauthorizedFavoriteButton(context);
                             }
                           },
                         ),
                       ),
                     ),
+
+                    // Positioned(
+                    //   top: 0,
+                    //   right: 0,
+                    //   child: ClipRRect(
+                    //     borderRadius: const BorderRadius.only(
+                    //         topRight: Radius.circular(8),
+                    //         bottomLeft: Radius.circular(12)),
+                    //     child: BlocBuilder<AuthBloc, AuthState>(
+                    //       builder: (BuildContext context, AuthState state) {
+                    //         if (state is AuthLogged) {
+                    //          return BlocBuilder<FavoriteBloc, FavoriteState>(
+                    //             builder: (context, state) {
+                    //               if (!context
+                    //                   .read<FavoriteBloc>()
+                    //                   .productId
+                    //                   .contains(model.id)) {
+                    //                 return Container(
+                    //                     width: 40,
+                    //                     height: 40,
+                    //                     color: Colors.white,
+                    //                     child: Center(
+                    //                         child: IconButton(
+                    //                           onPressed: () {
+                    //                             context
+                    //                                 .read<FavoriteBloc>()
+                    //                                 .add(AddFavoriteProduct(model.id));
+                    //                           },
+                    //                           icon: const Icon(
+                    //                             Icons.favorite_border_outlined,
+                    //                             color: Colors.red,
+                    //                           ),
+                    //                         )));
+                    //               } else {
+                    //                 return Container(
+                    //                     width: 40,
+                    //                     height: 40,
+                    //                     color: Colors.white,
+                    //                     child: Center(
+                    //                         child: IconButton(
+                    //                           onPressed: () {
+                    //                             context.read<FavoriteBloc>().add(RemoveFavoriteProduct(model.id));
+                    //                           },
+                    //                           icon: const Icon(
+                    //                             Icons.favorite,
+                    //                             color: Colors.red,
+                    //                           ),
+                    //                         )));
+                    //               }
+                    //             },
+                    //           );
+                    //         }
+                    //      else {
+                    //           return Container(
+                    //               width: 40,
+                    //               height: 40,
+                    //               color: Colors.white,
+                    //               child: Center(
+                    //                   child: IconButton(
+                    //                     onPressed: () {
+                    //
+                    //                       _showDialog(context, 'Halanlaryma gosmak ucin agza bolun!');
+                    //                     },
+                    //                     icon: const Icon(
+                    //                       Icons.favorite_border,
+                    //                       color: Colors.red,
+                    //                     ),
+                    //                   )));
+                    //         }
+                    //
+                    //       },),
+                    //   ),
+                    // ),
 
                     ///discount
                     model.discount == 0
@@ -220,8 +260,8 @@ class ProductCardWidget extends StatelessWidget {
                             }
                           },
                         );
-                      }
-                      return IconButton(
+                      }else {
+                        return IconButton(
                         onPressed: () {
                           _showDialog(
                               context, 'Sebede gosmak ucin agza bolun!');
@@ -231,6 +271,7 @@ class ProductCardWidget extends StatelessWidget {
                         ),
                         color: Colors.white,
                       );
+                      }
                     },
                   ))),
             ),
@@ -240,6 +281,51 @@ class ProductCardWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildFavoriteButton(BuildContext context, int productId) {
+    return BlocBuilder<FavoriteBloc, FavoriteState>(
+      builder: (context, state) {
+        if (!context.read<FavoriteBloc>().productId.contains(productId)) {
+          return _buildFavoriteIconButton(
+            onPressed: () {
+              context.read<FavoriteBloc>().add(AddFavoriteProduct(productId));
+            },
+            icon: Icons.favorite_border_outlined,
+          );
+        } else {
+          return _buildFavoriteIconButton(
+            onPressed: () {
+              context.read<FavoriteBloc>().add(RemoveFavoriteProduct(productId));
+            },
+            icon: Icons.favorite,
+          );
+        }
+      },
+    );
+  }
+  Widget _buildFavoriteIconButton({required VoidCallback onPressed, required IconData icon}) {
+    return Container(
+      width: 40,
+      height: 40,
+      color: Colors.white,
+      child: Center(
+        child: IconButton(
+          onPressed: onPressed,
+          icon: Icon(
+            icon,
+            color: Colors.red,
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _buildUnauthorizedFavoriteButton(BuildContext context) {
+    return _buildFavoriteIconButton(
+      onPressed: () {
+        _showDialog(context, 'Halanlaryma gosmak ucin agza bolun!');
+      },
+      icon: Icons.favorite_border,
+    );
+  }
   void _showDialog(BuildContext context, String title) {
     showDialog(
       context: context,
@@ -263,8 +349,8 @@ class ProductCardWidget extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const RegistrationPage()));
+                  Navigator.of(context).pushNamed(RouteNames.registerRoute);
+                  //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegistrationPage()));
                 },
                 child: MediumText(
                   'Agza bolmak',

@@ -48,6 +48,7 @@ class TokenInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
+  //  String? token = await Store.getToken();
     if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
       try {
         await refreshToken();
@@ -61,7 +62,12 @@ class TokenInterceptor extends Interceptor {
       } catch (e) {
         debugPrint("Failed to refresh token: $e");
         await Store.clear();
+        //dine 1 gezek pusederyaly etmeli
 
+        // Navigator.pushAndRemoveUntil(
+        //     GlobalData.homeContext!,
+        //     MaterialPageRoute(builder: (context) => const RegistrationPage()),
+        //         (Route<dynamic> route) => false);
         Navigator.push(GlobalData.homeContext!,
             MaterialPageRoute(builder: (context) => const RegistrationPage()));
       }
@@ -76,8 +82,6 @@ class TokenInterceptor extends Interceptor {
       if (refreshToken != null) {
         var response = await dio
             .post(ApiEndpoints.refreshToken,
-            //'http://192.168.192.75:8000/api/accaunt/token/refresh/',
-
                 data: {'refresh': refreshToken}
                 // options: Options(
                 //   headers: {"Refresh-Token": refreshToken},

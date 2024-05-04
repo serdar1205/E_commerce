@@ -19,15 +19,18 @@ class _ImageSliderWidgetState extends State<ImageSliderWidget> {
   @override
   void initState() {
     super.initState();
-   context.read<BannerCubit>().getBanners();
+   context.read<BannerCubit>().init();//getBanners();
   }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BannerCubit, BannerState>(
+
       builder: (context, state) {
+      //  print(state);
         if (state is BannerLoadingState) {
           return Container(
             margin:  const EdgeInsets.symmetric(horizontal: 20),
+            height: 200,
             width: MediaQuery.of(context).size.width,
             color: Colors.black12,
           );

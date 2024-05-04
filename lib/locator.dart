@@ -39,6 +39,7 @@ import 'package:tehno_mir/presentation/bloc/product_details/product_detail_bloc.
 import 'core/network/api_provider.dart';
 import 'core/network/api_provider_impl.dart';
 import 'core/network/network.dart';
+import 'data/data_sources/local/local_datasource.dart';
 import 'data/data_sources/remote/cart_remote_datasource.dart';
 import 'data/data_sources/remote/products_remote_datasource.dart';
 import 'data/repositories/about_us_repository.dart';
@@ -104,11 +105,14 @@ Future<void> initLocator() async {
   locator.registerLazySingleton<FavoriteRemoteDataSource>(
         () => FavoriteRemoteDataSourceImpl(locator()),
   );
+  // locator.registerLazySingleton<LocalDataSource>(
+  //         () => LocalDataSourceImpl());
 
   ///repository
   locator.registerLazySingleton<BannerRepository>(() => BannerRepositoryImpl(
         networkInfo: locator(),
         remoteDataSource: locator(),
+//    localDataSource: locator(),
       ));
 
   locator

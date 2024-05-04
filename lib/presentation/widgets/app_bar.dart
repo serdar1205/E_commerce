@@ -85,6 +85,7 @@ class _CustomAppBarWidgetState extends State<CustomAppBarWidget> {
                                 context
                                     .read<CategoryProductsCubit>()
                                     .getProducts(ProductQueryParameters());
+                                print('Appbar called');
                               }
                             },
                             icon: const Icon(Icons.clear)),

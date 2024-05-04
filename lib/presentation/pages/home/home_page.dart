@@ -21,8 +21,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<CategoryCubit>().getCategories();
-    context.read<CategoryProductsCubit>().getProducts(ProductQueryParameters());
+  ///  context.read<CategoryCubit>().getCategories();
+    context.read<CategoryCubit>().init();
+    context.read<CategoryProductsCubit>().init();//getProducts(ProductQueryParameters());
   }
 
   @override
@@ -54,13 +55,25 @@ class _HomePageState extends State<HomePage> {
         BlocBuilder<CategoryProductsCubit, CategoryProductsState>(
           builder: (context, state) {
             if (state is CategoryProductsLoadingState) {
-              return const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
+              return  SliverToBoxAdapter(child: Center(child: CircularProgressIndicator(color: Colors.red,)));
             } else if (state is CategoryProductsLoadedState) {
               return ProductCardGrid(products: state.data);
             } else if (state is CategoryProductsErrorState) {
               return SliverToBoxAdapter(
                 child: Center(
-                  child: BigText(state.message, context: context),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BigText(state.message, context: context),
+                      TextButton(
+                        onPressed: () {
+                          // Retry fetching products
+                        //  context.read<CategoryProductsCubit>().getProducts(ProductQueryParameters()); // Replace 'params' with appropriate parameters
+                        },
+                        child: Text('Retry'),
+                      ),
+                    ],
+                  ),
                 ),
               );
             } else if (state is CategoryProductsEmptyState) {

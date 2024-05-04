@@ -82,20 +82,20 @@ class UserRepositoryImpl implements UserRepository{
     print('///////////////////////////');
     final bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
-    //  try {
+      try {
         final response = await remoteDataSource.getUser();
         print('///////////////////////////');
 
         print(response.userName);
         print('///////////////////////////');
         return Right(response);
-    //  }
-    //   catch (error) {
-    //     if (kDebugMode) {
-    //       print('${error}repository repository');
-    //     }
-    //     return Left(ErrorHandler.handle(error).failure);
-    //   }
+      }
+       catch (error) {
+        if (kDebugMode) {
+          print('${error}repository repository');
+        }
+        return Left(ErrorHandler.handle(error).failure);
+      }
     } else {
       return const Left(OfflineFailure(AppStrings.noInternetError));
     }
