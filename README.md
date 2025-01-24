@@ -1,16 +1,22 @@
-# tehno_mir
+# E-commerce app
 
-A new Flutter project.
+This project has written in clean architecture.
 
-## Getting Started
+## App contains
 
-This project is a starting point for a Flutter application.
+  - Flutter Clean architecture
+  - Bloc state management
+  - DI get_it
+  - Routing: without any package used Navigator
+  - Local storage
+  - dio package used to fetch remote data
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features
+ - authentication
+ - favorites
+ - basket
+ - history of ordered products
+ - category
+ - contact us
+ - filtering products
+ - pick image
